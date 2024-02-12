@@ -1,86 +1,69 @@
 #![deny(clippy::all)]
 
 use std::collections::hash_map::HashMap;
-use napi::bindgen_prelude::Uint8Array;
+use napi::{bindgen_prelude::Uint8Array, Error};
 
 #[macro_use]
 extern crate napi_derive;
 
 #[napi]
-pub struct PubkeyIndexMap {
-  map: HashMap<Uint8ArrayWrapper, i32>,
-}
-
-// Uint8ArrayWrapper is a wrapper around Uint8Array to make it hashable
-#[derive(Clone)]
-struct Uint8ArrayWrapper {
-  key: Uint8Array,
-}
-
-impl Eq for Uint8ArrayWrapper {}
-
-impl PartialEq for Uint8ArrayWrapper {
-  fn eq(&self, other: &Self) -> bool {
-    self.key.as_ref().eq(other.key.as_ref())
-  }
-}
-
-impl std::hash::Hash for Uint8ArrayWrapper {
-  fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-    self.key.as_ref().hash(state);
-  }
-}
+pub struct PubkeyIndexMap(HashMap<[u8; 48], i32>);
 
 #[napi]
 impl PubkeyIndexMap {
   #[napi(constructor)]
   pub fn new() -> Self {
-    Self {
-      map: std::collections::HashMap::new(),
+    Self(HashMap::default())
+  }
+
+  #[napi]
+  pub fn set(&mut self, key: Uint8Array, value: i32) -> Result<Option<i32>, Error> {
+    let res: Result<&[u8; 48], _> = key.as_ref().try_into();
+    match res {
+      Ok(k) => Ok(self.0.insert(*k, value)),
+      Err(_) => Err(Error::from_reason("Input must be 48 bytes")),
     }
   }
 
-  #[napi(factory)]
-  pub fn with_initial_capacity(capacity: i32) -> Self {
-    Self {
-      map: std::collections::HashMap::with_capacity(capacity as usize),
+  #[napi]
+  pub fn get(&self, key: Uint8Array) -> Result<Option<i32>, Error> {
+    let res: Result<&[u8; 48], _> = key.as_ref().try_into();
+    match res {
+      Ok(k) => Ok(self.0.get(k).copied()),
+      Err(_) => Err(Error::from_reason("Input must be 48 bytes")),
     }
   }
 
   #[napi]
-  pub fn set(&mut self, key: Uint8Array, value: i32) {
-    self.map.insert(Uint8ArrayWrapper { key }, value);
+  pub fn has(&self, key: Uint8Array) -> Result<bool, Error> {
+    let res: Result<&[u8; 48], _> = key.as_ref().try_into();
+    match res {
+      Ok(k) => Ok(self.0.contains_key(k)),
+      Err(_) => Err(Error::from_reason("Input must be 48 bytes")),
+    }
   }
 
   #[napi]
-  pub fn get(&self, key: Uint8Array) -> Option<i32> {
-    self.map.get(&Uint8ArrayWrapper { key }).copied()
-  }
-
-  #[napi]
-  pub fn has(&self, key: Uint8Array) -> bool {
-    self.map.contains_key(&Uint8ArrayWrapper { key })
-  }
-
-  #[napi]
-  pub fn delete(&mut self, key: Uint8Array) -> Option<i32> {
-    self.map.remove(&Uint8ArrayWrapper { key })
+  pub fn delete(&mut self, key: Uint8Array) -> Result<Option<i32>, Error> {
+    let res: Result<&[u8; 48], _> = key.as_ref().try_into();
+    match res {
+      Ok(k) => Ok(self.0.remove(k)),
+      Err(_) => Err(Error::from_reason("Input must be 48 bytes")),
+    }
   }
 
   #[napi(getter)]
   pub fn size(&self) -> i32 {
-    self.map.len() as i32
+    self.0.len() as i32
   }
 
   #[napi]
   pub fn clear(&mut self) {
-    self.map.clear();
+    self.0.clear();
   }
 
   #[napi]
   pub fn clone(&self) -> Self {
-    Self {
-      map: self.map.clone(),
-    }
+    Self(self.0.clone())
   }
 }

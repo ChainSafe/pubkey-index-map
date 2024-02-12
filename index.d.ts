@@ -5,8 +5,7 @@
 
 export class PubkeyIndexMap {
   constructor()
-  static withInitialCapacity(capacity: number): PubkeyIndexMap
-  set(key: Uint8Array, value: number): void
+  set(key: Uint8Array, value: number): number | null
   get(key: Uint8Array): number | null
   has(key: Uint8Array): boolean
   delete(key: Uint8Array): number | null

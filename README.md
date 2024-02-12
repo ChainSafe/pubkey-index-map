@@ -1,14 +1,12 @@
 # @chainsafe/pubkey-index-map
 
-Small napi-rs shim with an interface similar to `Map<Uint8Array, number>`
+Small napi-rs shim with an interface similar to `Map<Uint8Array, number>` but only for Uint8Arrays of length 48
 
 ```ts
 import {PubkeyIndexMap} from "@chainsafe/pubkey-index-map"
 
 // instantiate a new map
 let map = new PubkeyIndexMap()
-// or instantiate a new map with more preallocated space
-map = PubkeyIndexMap.withInitialCapacity(1_000_000)
 
 const pubkey: Uint8Array = ...;
 const index: number = ...;
