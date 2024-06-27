@@ -55,8 +55,7 @@ impl PubkeyIndexMap {
 }
 
 fn to_arr<'a>(a: &'a Uint8Array) -> Result<&'a [u8; 48]> {
-  a
-    .as_ref()
+  a.as_ref()
     .try_into()
     .map_err(|_| Error::from_reason("Input must be 48 bytes"))
 }
