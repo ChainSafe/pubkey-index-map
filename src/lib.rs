@@ -1,13 +1,15 @@
 #![deny(clippy::all)]
 
+use napi::bindgen_prelude::*;
 use std::collections::hash_map::HashMap;
-use napi::{bindgen_prelude::Uint8Array, Error};
 
 #[macro_use]
 extern crate napi_derive;
 
+type Val = i32;
+
 #[napi]
-pub struct PubkeyIndexMap(HashMap<[u8; 48], i32>);
+pub struct PubkeyIndexMap(HashMap<[u8; 48], Val>);
 
 #[napi]
 impl PubkeyIndexMap {
@@ -17,44 +19,28 @@ impl PubkeyIndexMap {
   }
 
   #[napi]
-  pub fn set(&mut self, key: Uint8Array, value: i32) -> Result<Option<i32>, Error> {
-    let res: Result<&[u8; 48], _> = key.as_ref().try_into();
-    match res {
-      Ok(k) => Ok(self.0.insert(*k, value)),
-      Err(_) => Err(Error::from_reason("Input must be 48 bytes")),
-    }
+  pub fn set(&mut self, key: Uint8Array, value: Val) -> Result<Option<Val>> {
+    Ok(self.0.insert(*to_arr(&key)?, value))
   }
 
   #[napi]
-  pub fn get(&self, key: Uint8Array) -> Result<Option<i32>, Error> {
-    let res: Result<&[u8; 48], _> = key.as_ref().try_into();
-    match res {
-      Ok(k) => Ok(self.0.get(k).copied()),
-      Err(_) => Err(Error::from_reason("Input must be 48 bytes")),
-    }
+  pub fn get(&self, key: Uint8Array) -> Result<Option<Val>> {
+    Ok(self.0.get(to_arr(&key)?).copied())
   }
 
   #[napi]
-  pub fn has(&self, key: Uint8Array) -> Result<bool, Error> {
-    let res: Result<&[u8; 48], _> = key.as_ref().try_into();
-    match res {
-      Ok(k) => Ok(self.0.contains_key(k)),
-      Err(_) => Err(Error::from_reason("Input must be 48 bytes")),
-    }
+  pub fn has(&self, key: Uint8Array) -> Result<bool> {
+    Ok(self.0.contains_key(to_arr(&key)?))
   }
 
   #[napi]
-  pub fn delete(&mut self, key: Uint8Array) -> Result<Option<i32>, Error> {
-    let res: Result<&[u8; 48], _> = key.as_ref().try_into();
-    match res {
-      Ok(k) => Ok(self.0.remove(k)),
-      Err(_) => Err(Error::from_reason("Input must be 48 bytes")),
-    }
+  pub fn delete(&mut self, key: Uint8Array) -> Result<Option<Val>> {
+    Ok(self.0.remove(to_arr(&key)?))
   }
 
   #[napi(getter)]
-  pub fn size(&self) -> i32 {
-    self.0.len() as i32
+  pub fn size(&self) -> Val {
+    self.0.len() as Val
   }
 
   #[napi]
@@ -66,4 +52,11 @@ impl PubkeyIndexMap {
   pub fn clone(&self) -> Self {
     Self(self.0.clone())
   }
+}
+
+fn to_arr<'a>(a: &'a Uint8Array) -> Result<&'a [u8; 48]> {
+  a
+    .as_ref()
+    .try_into()
+    .map_err(|_| Error::from_reason("Input must be 48 bytes"))
 }
