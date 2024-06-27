@@ -1,6 +1,6 @@
 # @chainsafe/pubkey-index-map
 
-Small napi-rs shim with an interface similar to `Map<Uint8Array, number>` but only for Uint8Arrays of length 48
+Small napi-rs shim with an interface similar to `Map<Uint8Array, number>` but only for length 48 Uint8Arrays for keys and unsigned 32 bit numbers for values.
 
 ```ts
 import {PubkeyIndexMap} from "@chainsafe/pubkey-index-map"

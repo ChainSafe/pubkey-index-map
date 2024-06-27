@@ -6,7 +6,7 @@ use std::collections::hash_map::HashMap;
 #[macro_use]
 extern crate napi_derive;
 
-type Val = i32;
+type Val = u32;
 
 #[napi]
 pub struct PubkeyIndexMap(HashMap<[u8; 48], Val>);
