@@ -55,15 +55,5 @@
     "test:perf": "ts-node node_modules/.bin/benchmark test/perf/index.test.ts",
     "version": "napi version"
   },
-  "packageManager": "yarn@4.6.0",
-  "optionalDependencies": {
-    "@chainsafe/pubkey-index-map-darwin-arm64": "2.0.1",
-    "@chainsafe/pubkey-index-map-linux-arm64-gnu": "2.0.1",
-    "@chainsafe/pubkey-index-map-linux-arm64-musl": "2.0.1",
-    "@chainsafe/pubkey-index-map-win32-arm64-msvc": "2.0.1",
-    "@chainsafe/pubkey-index-map-darwin-x64": "2.0.1",
-    "@chainsafe/pubkey-index-map-win32-x64-msvc": "2.0.1",
-    "@chainsafe/pubkey-index-map-linux-x64-gnu": "2.0.1",
-    "@chainsafe/pubkey-index-map-linux-x64-musl": "2.0.1"
-  }
+  "packageManager": "yarn@4.6.0"
 }
