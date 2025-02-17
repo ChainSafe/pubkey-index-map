@@ -52,7 +52,8 @@
     "prepublishOnly": "napi prepublish -t npm",
     "test": "yarn test:unit && yarn test:perf",
     "test:unit": "vitest --run --dir test/unit",
-    "test:perf": "ts-node node_modules/.bin/benchmark test/perf/index.test.ts",
+    "test:perf": "yarn test:perf:files test/perf/index.test.ts",
+    "test:perf:files": "NODE_OPTIONS='--max-old-space-size=4096 --loader=ts-node/esm' benchmark --config .benchrc.yaml --defaultBranch main",
     "version": "napi version"
   },
   "packageManager": "yarn@4.6.0"
