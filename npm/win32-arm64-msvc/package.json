@@ -1,12 +1,12 @@
 {
-  "name": "@chainsafe/pubkey-index-map-linux-x64-gnu",
+  "name": "@chainsafe/pubkey-index-map-win32-arm64-msvc",
   "version": "2.0.1",
   "cpu": [
-    "x64"
+    "arm64"
   ],
-  "main": "pubkey-index-map.linux-x64-gnu.node",
+  "main": "pubkey-index-map.win32-arm64-msvc.node",
   "files": [
-    "pubkey-index-map.linux-x64-gnu.node"
+    "pubkey-index-map.win32-arm64-msvc.node"
   ],
   "keywords": [
     "ethereum",
@@ -23,9 +23,6 @@
     "url": "https://github.com/ChainSafe/pubkey-index-map"
   },
   "os": [
-    "linux"
-  ],
-  "libc": [
-    "glibc"
+    "win32"
   ]
 }
