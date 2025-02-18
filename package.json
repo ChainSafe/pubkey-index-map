@@ -1,6 +1,6 @@
 {
   "name": "@chainsafe/pubkey-index-map",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "type": "module",
   "exports": "./index.js",
   "types": "index.d.ts",
