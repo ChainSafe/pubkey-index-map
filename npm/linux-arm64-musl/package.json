@@ -1,12 +1,12 @@
 {
-  "name": "@chainsafe/pubkey-index-map-linux-x64-gnu",
+  "name": "@chainsafe/pubkey-index-map-linux-arm64-musl",
   "version": "2.0.1",
   "cpu": [
-    "x64"
+    "arm64"
   ],
-  "main": "pubkey-index-map.linux-x64-gnu.node",
+  "main": "pubkey-index-map.linux-arm64-musl.node",
   "files": [
-    "pubkey-index-map.linux-x64-gnu.node"
+    "pubkey-index-map.linux-arm64-musl.node"
   ],
   "keywords": [
     "ethereum",
@@ -26,6 +26,6 @@
     "linux"
   ],
   "libc": [
-    "glibc"
+    "musl"
   ]
 }

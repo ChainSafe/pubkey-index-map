@@ -2,7 +2,7 @@
   "include": ["test"],
   "compilerOptions": {
     "target": "esnext",
-    "module": "CommonJS",
+    "module": "NodeNext",
     "pretty": true,
     "strict": true,
     "alwaysStrict": true,

@@ -1,7 +1,7 @@
-import {itBench} from "@dapplion/benchmark";
+import {bench, describe} from "@chainsafe/benchmark";
 
-import {PubkeyIndexMap} from "../../";
-import {PubkeyIndexMap as PubkeyIndexMapNaive} from "./naive";
+import {PubkeyIndexMap} from "../../index.js";
+import {PubkeyIndexMap as PubkeyIndexMapNaive} from "./naive.js";
 import { randomBytes } from "crypto";
 
 describe("get/set", () => {
@@ -14,7 +14,7 @@ describe("get/set", () => {
       p1.set(pks[i], 0);
     }
 
-    itBench({
+    bench({
       id: `get values - ${N}`,
       beforeEach: () => {
         return Math.floor(Math.random() * N);
@@ -24,7 +24,7 @@ describe("get/set", () => {
       }
     });
 
-    itBench({
+    bench({
       id: `get values - naive - ${N}`,
       beforeEach: () => {
         return Math.floor(Math.random() * N);
@@ -33,7 +33,7 @@ describe("get/set", () => {
         p1.get(pks[n]);
       }
     });
-    itBench({
+    bench({
       id: `set values - ${N}`,
       beforeEach: () => {
         return Math.floor(Math.random() * N);
@@ -43,7 +43,7 @@ describe("get/set", () => {
       }
     });
 
-    itBench({
+    bench({
       id: `set values - naive - ${N}`,
       beforeEach: () => {
         return Math.floor(Math.random() * N);
