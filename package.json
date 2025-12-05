@@ -31,7 +31,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@chainsafe/benchmark": "^1.2.3",
-    "@napi-rs/cli": "^3.0.0-alpha.70",
+    "@napi-rs/cli": "^3.5.0",
     "@types/node": "^22.13.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
@@ -50,11 +50,11 @@
     "build:debug": "napi build --platform --esm",
     "lint": "biome check",
     "prepublishOnly": "napi prepublish -t npm",
-    "test": "yarn test:unit && yarn test:perf",
+    "test": "pnpm test:unit && pnpm test:perf",
     "test:unit": "vitest --run --dir test/unit",
-    "test:perf": "yarn test:perf:files test/perf/index.test.ts",
+    "test:perf": "pnpm test:perf:files test/perf/index.test.ts",
     "test:perf:files": "NODE_OPTIONS='--max-old-space-size=4096 --loader=ts-node/esm' benchmark --config .benchrc.yaml --defaultBranch main",
     "version": "napi version"
   },
-  "packageManager": "yarn@4.6.0"
+  "packageManager": "pnpm@10.23.0"
 }
